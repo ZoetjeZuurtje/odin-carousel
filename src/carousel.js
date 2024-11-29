@@ -1,21 +1,22 @@
 import './style.css'
 
 class Carousel {
-  constructor (carouselContainer, autoSlide = false) {
+  constructor (slideContainer, autoSlide = false) {
+    this.imageContainer = slideContainer.querySelector('.images-container')
     this.sliderIndex = 0
     this.autoSlide = autoSlide
     this.autoSlideTiming = 5E3
-    this.carouselContainer = carouselContainer
-    this.slideContainer = carouselContainer.querySelector('.images-container')
+    this.slides = this.imageContainer.children.length;
+    this.carouselContainer = slideContainer
     this.imageTrackerDots = [];
 
     this.generateTrackerDots();
 
-    carouselContainer.querySelector('.change-carousel-item.arrow-right').addEventListener('click', () => {
+    this.carouselContainer.querySelector('.change-carousel-item.arrow-right').addEventListener('click', () => {
       this.increaseIndex()
       this.moveCarousel()
     })
-    carouselContainer.querySelector('.change-carousel-item.arrow-left').addEventListener('click', () => {
+    this.carouselContainer.querySelector('.change-carousel-item.arrow-left').addEventListener('click', () => {
       this.decreaseIndex()
       this.moveCarousel()
     })
@@ -29,7 +30,7 @@ class Carousel {
   }
 
   generateTrackerDots () {
-    for (let i = 0; i < this.slideContainer.children.length; i++) {
+    for (let i = 0; i < this.imageContainer.children.length; i++) {
       let node = document.createElement('div');
       
       node.classList.add('dot');
@@ -49,20 +50,20 @@ class Carousel {
 
   increaseIndex () {
     this.sliderIndex++
-    if (this.sliderIndex >= this.slideContainer.children.length) {
-      this.sliderIndex = 0
+    if (this.sliderIndex == this.slides) {
+      this.sliderIndex = 0;
     }
   }
 
   decreaseIndex () {
     this.sliderIndex--
     if (this.sliderIndex < 0) {
-      this.sliderIndex = this.slideContainer.children.length - 1
+      this.sliderIndex = this.slides - 1;
     }
   }
 
   moveCarousel = () => {
-    for (const element of this.slideContainer.children) {
+    for (const element of this.imageContainer.children) {
       element.style.transform = `translateX(-${this.sliderIndex * 100}%)`
     }
 
