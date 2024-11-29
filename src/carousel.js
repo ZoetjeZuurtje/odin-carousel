@@ -7,9 +7,9 @@ class Carousel {
     this.autoSlideTiming = 5E3
     this.carouselContainer = carouselContainer
     this.slideContainer = carouselContainer.querySelector('.images-container')
-    this.imageTracker = carouselContainer.querySelector('.image-tracker')
+    this.imageTrackerDots = carouselContainer.querySelectorAll('.image-tracker > .dot')
 
-    carouselContainer.querySelectorAll('.image-tracker > .dot').forEach((element) => element.addEventListener('click', (event) => {
+    this.imageTrackerDots.forEach((element) => element.addEventListener('click', (event) => {
       const i = event.target.dataset.slideIndex
       this.goToSlide(i)
     }))
@@ -50,10 +50,10 @@ class Carousel {
       element.style.transform = `translateX(-${this.sliderIndex * 100}%)`
     }
 
-    for (const element of this.imageTracker.children) {
+    for (const element of this.imageTrackerDots) {
       element.classList.remove('active')
     }
-    this.imageTracker.children[this.sliderIndex].classList.add('active')
+    this.imageTrackerDots[this.sliderIndex].classList.add('active')
   }
 
   goToSlide (index) {
