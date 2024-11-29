@@ -7,12 +7,9 @@ class Carousel {
     this.autoSlideTiming = 5E3
     this.carouselContainer = carouselContainer
     this.slideContainer = carouselContainer.querySelector('.images-container')
-    this.imageTrackerDots = carouselContainer.querySelectorAll('.image-tracker > .dot')
+    this.imageTrackerDots = [];
 
-    this.imageTrackerDots.forEach((element) => element.addEventListener('click', (event) => {
-      const i = event.target.dataset.slideIndex
-      this.goToSlide(i)
-    }))
+    this.generateTrackerDots();
 
     carouselContainer.querySelector('.change-carousel-item.arrow-right').addEventListener('click', () => {
       this.increaseIndex()
@@ -29,6 +26,25 @@ class Carousel {
         this.moveCarousel()
       }
     }, this.autoSlideTiming)
+  }
+
+  generateTrackerDots () {
+    for (let i = 0; i < this.slideContainer.children.length; i++) {
+      let node = document.createElement('div');
+      
+      node.classList.add('dot');
+      if (i === 0) {
+        node.classList.add('active');
+      }
+      node.dataset.slideIndex = i;
+      node.addEventListener('click', (event) => {
+        const i = event.target.dataset.slideIndex
+        this.goToSlide(i)
+      })
+      this.imageTrackerDots.push(node);
+
+      this.carouselContainer.querySelector('.image-tracker').appendChild(node)
+    }
   }
 
   increaseIndex () {
